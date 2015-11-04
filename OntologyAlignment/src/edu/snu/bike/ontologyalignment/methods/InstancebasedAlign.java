@@ -21,7 +21,7 @@ public class InstancebasedAlign implements Align {
 		return graph;
 	}
 
-	private Mapper mapper = null;
+	private InstancebasedMapper mapper = null;
 	private InputOntologies input = null;
 
 	public InputOntologies getInput() {

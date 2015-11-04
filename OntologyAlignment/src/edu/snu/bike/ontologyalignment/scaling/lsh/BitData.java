@@ -1,9 +1,9 @@
-package edu.snu.bike.ontologyalignment.approches.lsh;
+package edu.snu.bike.ontologyalignment.scaling.lsh;
 
+import java.util.BitSet;
 import java.util.HashMap;
 
-public class Data {
-
+public class BitData {
 	HashMap<String, Integer> ins;
 
 	public HashMap<String, Integer> getIns() {
@@ -22,20 +22,15 @@ public class Data {
 		this.cls = cls;
 	}
 
-	public Boolean[][] getData() {
+	public HashMap<Integer, BitSet> getData() {
 		return data;
 	}
 
-	public void setData(Boolean[][] data) {
+	public void setData(HashMap<Integer, BitSet> data) {
 		this.data = data;
 	}
 
 	HashMap<String, Integer> cls;
-	Boolean[][] data;
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
+	HashMap<Integer, BitSet> data;
 
 }

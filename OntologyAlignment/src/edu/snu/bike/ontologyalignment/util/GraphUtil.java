@@ -8,7 +8,7 @@ import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
-import edu.snu.bike.ontologyalignment.approches.lsh.HashBean;
+import edu.snu.bike.ontologyalignment.scaling.lsh.HashBean;
 
 public class GraphUtil {
 

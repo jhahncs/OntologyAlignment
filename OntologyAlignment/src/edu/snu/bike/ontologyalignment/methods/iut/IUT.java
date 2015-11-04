@@ -16,14 +16,14 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.Multigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
-import edu.snu.bike.ontologyalignment.approches.lsh.HashBean;
 import edu.snu.bike.ontologyalignment.methods.Config;
-import edu.snu.bike.ontologyalignment.methods.Mapper;
+import edu.snu.bike.ontologyalignment.methods.InstancebasedMapper;
 import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
+import edu.snu.bike.ontologyalignment.scaling.lsh.HashBean;
 import edu.snu.bike.ontologyalignment.util.GraphUtil;
 import edu.snu.bike.ontologyalignment.util.SimCaculater;
 
-public class IUT implements Mapper {
+public class IUT implements InstancebasedMapper {
 
 	// HashMap<String, String[]> data = new HashMap<String, String[]>();
 	private HashMap<String, HashSet<String>> data = null;
@@ -72,7 +72,9 @@ public class IUT implements Mapper {
 
 		return graph;
 	}
-
+	
+	
+	@Override
 	public void initial(InputOntologies input, Config config) throws IOException {
 		if (input.getTaxonomy1() != null) {
 			this.taxonomy1 = input.getTaxonomy1();

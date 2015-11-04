@@ -11,17 +11,18 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.Multigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
-import edu.snu.bike.ontologyalignment.approches.lsh.BitData;
-import edu.snu.bike.ontologyalignment.approches.lsh.BitMinHash;
-import edu.snu.bike.ontologyalignment.approches.lsh.DataLoader;
-import edu.snu.bike.ontologyalignment.approches.lsh.HashBean;
 import edu.snu.bike.ontologyalignment.methods.Config;
-import edu.snu.bike.ontologyalignment.methods.Mapper;
+import edu.snu.bike.ontologyalignment.methods.InstanceBasedMapper;
+import edu.snu.bike.ontologyalignment.methods.InstancebasedMapper;
 import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
+import edu.snu.bike.ontologyalignment.scaling.lsh.BitData;
+import edu.snu.bike.ontologyalignment.scaling.lsh.BitMinHash;
+import edu.snu.bike.ontologyalignment.scaling.lsh.DataLoader;
+import edu.snu.bike.ontologyalignment.scaling.lsh.HashBean;
 import edu.snu.bike.ontologyalignment.util.GraphUtil;
 import edu.snu.bike.ontologyalignment.util.SimCaculater;
 
-public class IUT_LSH implements Mapper {
+public class IUT_LSH implements InstancebasedMapper {
 
 	private HashMap<String, HashSet<String>> data = null;
 	private String most = "";
@@ -71,7 +72,8 @@ public class IUT_LSH implements Mapper {
 
 		return graph;
 	}
-
+	
+	@Override
 	public void initial(InputOntologies input, Config config) throws IOException {
 		if (input.getTaxonomy1() != null) {
 			this.taxonomy1 = input.getTaxonomy1();

@@ -10,6 +10,12 @@ import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
 import edu.snu.bike.ontologyalignment.models.data.OutputAlignments;
 
 
+
+/**
+ * 
+ *  this interface for choosing lexical-based method or instance-based method
+ *
+ */
 public interface Align {
 
 	public SimpleDirectedGraph<String, DefaultEdge> align(InputOntologies input, Config config) throws Exception;

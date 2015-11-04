@@ -1,4 +1,4 @@
-package edu.snu.bike.ontologyalignment.approches.lsh;
+package edu.snu.bike.ontologyalignment.scaling.lsh;
 
 import java.util.ArrayList;
 import java.util.BitSet;

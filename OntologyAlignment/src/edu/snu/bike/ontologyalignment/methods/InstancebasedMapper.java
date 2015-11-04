@@ -10,12 +10,10 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 
 import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
 
-/**
- * @author nansu
- *
- */
-public interface Mapper {
+
+public interface InstancebasedMapper {
 
 	public SimpleDirectedGraph<String, DefaultEdge> mapping(InputOntologies input, Config config) throws Exception;
-
+	
+	public void initial(InputOntologies input, Config config)  throws Exception;
 }
