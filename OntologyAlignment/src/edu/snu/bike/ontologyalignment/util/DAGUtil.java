@@ -11,8 +11,6 @@ import java.util.List;
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.alg.cycle.JohnsonSimpleCycles;
 import org.jgrapht.graph.SimpleDirectedGraph;
-import org.semanticweb.yars.nx.Node;
-import org.semanticweb.yars.nx.parser.NxParser;
 
 public class DAGUtil {
 

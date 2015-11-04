@@ -1,9 +1,5 @@
 package edu.snu.bike.ontologyalignment.methods;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 

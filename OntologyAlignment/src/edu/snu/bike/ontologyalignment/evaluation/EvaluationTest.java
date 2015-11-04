@@ -3,7 +3,6 @@ package edu.snu.bike.ontologyalignment.evaluation;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
-import edu.snu.bike.ontologyalignment.methods.AlignmentCollector;
 import edu.snu.bike.ontologyalignment.methods.Config;
 import edu.snu.bike.ontologyalignment.methods.InstancebasedAlign;
 

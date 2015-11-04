@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 
-import org.semanticweb.yars.nx.Node;
-import org.semanticweb.yars.nx.parser.NxParser;
-
 public class Wikidata implements Statistics {
 	public static void main(String[] args) throws IOException {
 		// ins size: 4,770,153

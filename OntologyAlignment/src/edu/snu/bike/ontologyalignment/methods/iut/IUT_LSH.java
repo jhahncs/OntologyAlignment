@@ -12,7 +12,6 @@ import org.jgrapht.graph.Multigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
 import edu.snu.bike.ontologyalignment.methods.Config;
-import edu.snu.bike.ontologyalignment.methods.InstanceBasedMapper;
 import edu.snu.bike.ontologyalignment.methods.InstancebasedMapper;
 import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
 import edu.snu.bike.ontologyalignment.scaling.lsh.BitData;

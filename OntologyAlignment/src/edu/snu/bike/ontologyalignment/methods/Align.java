@@ -7,7 +7,6 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
 import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
-import edu.snu.bike.ontologyalignment.models.data.OutputAlignments;
 
 
 

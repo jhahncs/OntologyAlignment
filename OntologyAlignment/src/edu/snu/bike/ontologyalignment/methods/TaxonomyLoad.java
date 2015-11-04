@@ -3,7 +3,6 @@
  */
 package edu.snu.bike.ontologyalignment.methods;
 
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.HashSet;
 

@@ -10,12 +10,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.semanticweb.yars.nx.Node;
-import org.semanticweb.yars.nx.parser.NxParser;
-
 import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
 
-public class InputOntologiesLoad implements TaxonomyLoad, CommonTypesLoad {
+public class InputOntologiesLoad implements TaxonomyLoad, CommonTypesLoad,literalLoad {
 
 	public InputOntologiesLoad(String taxonomyFile1, String taxonomyFile2, String commonTypeInstanceFile)
 			throws IOException {
@@ -24,6 +21,15 @@ public class InputOntologiesLoad implements TaxonomyLoad, CommonTypesLoad {
 		data.setTaxonomy1(loadTaxonomy(taxonomyFile1));
 		data.setTaxonomy2(loadTaxonomy(taxonomyFile2));
 		data.setCommonInstances(loadTypes(commonTypeInstanceFile));
+	}
+	
+	public InputOntologiesLoad(String taxonomyFile1, String taxonomyFile2)
+			throws Exception {
+		data = new InputOntologies();
+		data.setTaxonomy1(loadTaxonomy(taxonomyFile1));
+		data.setTaxonomy2(loadTaxonomy(taxonomyFile2));
+		data.setClassLabels(loadLabels(taxonomyFile1,taxonomyFile2));
+		data.setClassDescriptions(loadDescriptions(taxonomyFile1,taxonomyFile2));
 	}
 
 	public InputOntologiesLoad(String taxonomyFile1, String taxonomyFile2, String typeFromO1, String typeFromO2)
@@ -148,5 +154,48 @@ public class InputOntologiesLoad implements TaxonomyLoad, CommonTypesLoad {
 
 		return instances;
 	}
+
+	@Override
+	public HashMap<String, String> loadLabels(String taxonomyfile1,String taxonomyfile2) throws Exception {
+		// TODO Auto-generated method stub
+		
+		HashMap<String, String> labels= new HashMap<String,String>();
+		load(labels, taxonomyfile1, "<http://www.w3.org/2000/01/rdf-schema#label>");
+		load(labels, taxonomyfile2, "<http://www.w3.org/2000/01/rdf-schema#label>");
+		return labels;
+	}
+
+	@Override
+	public HashMap<String, String> loadDescriptions(String taxonomyfile1,String taxonomyfile2) throws Exception {
+		// TODO Auto-generated method stub
+		HashMap<String, String> descriptions= new HashMap<String,String>();
+		load(descriptions, taxonomyfile1, "<http://www.w3.org/2000/01/rdf-schema#comment>");
+		load(descriptions, taxonomyfile2, "<http://www.w3.org/2000/01/rdf-schema#comment>");
+		return descriptions;
+	}
+	
+	
+	public void load(HashMap<String,String> map, String taxonomyfile, String property){
+		BufferedReader br1 = new BufferedReader(new FileReader(new File(taxonomyfile)));
+		String line = null;
+		while ((line = br1.readLine()) != null) {
+			InputStream inputStream = new ByteArrayInputStream(line.getBytes());
+			NxParser nxp = new NxParser(inputStream, false);
+			while (nxp.hasNext()) {
+				Node[] quard = nxp.next();
+				String s = quard[0].toN3().trim();
+				String p = quard[1].toN3().trim();
+				String o = quard[2].toN3().trim();
+				if(p.equals(property)&o.contains("@en")){
+					String content=o.substring(o.indexOf("\"")+1, o.lastIndexOf("\"@en"));
+					map.put(s, content);
+				}
+			}
+		}
+		br1.close();
+	}
+	
+	
+	
 
 }

@@ -11,9 +11,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 
-import org.semanticweb.yars.nx.Node;
-import org.semanticweb.yars.nx.parser.NxParser;
-
 public class TaxonomyUtil {
 
 	public static HashMap<String, HashSet<String>> getAncesters(String cleanedtaxonomy) throws IOException {

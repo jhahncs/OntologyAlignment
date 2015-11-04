@@ -3,8 +3,6 @@
  */
 package edu.snu.bike.ontologyalignment.methods;
 
-import java.io.FileNotFoundException;
-
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 

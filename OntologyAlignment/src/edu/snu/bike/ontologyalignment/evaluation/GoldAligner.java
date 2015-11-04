@@ -7,9 +7,6 @@ import java.io.FileReader;
 import java.io.InputStream;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
-import org.semanticweb.yars.nx.parser.NxParser;
-
-import org.semanticweb.yars.nx.Node;
 
 public class GoldAligner {
 

@@ -45,11 +45,30 @@ public class InputOntologies {
 		this.commonInstances = commonInstances;
 	}
 
+	
+	public HashMap<String, String> getClassLabels() {
+		return classLabels;
+	}
+
+	public void setClassLabels(HashMap<String, String> classLabels) {
+		this.classLabels = classLabels;
+	}
+
+	public HashMap<String, String> getClassDescriptions() {
+		return classDescriptions;
+	}
+
+	public void setClassDescriptions(HashMap<String, String> classDescriptions) {
+		this.classDescriptions = classDescriptions;
+	}
+	
+	
 	private String nameSpace1 = "";
 	private String nameSpace2 = "";
 	private HashMap<String, HashSet<String>> taxonomy1; // HashMap<subclasses,HashSet<supclasses>>
 	private HashMap<String, HashSet<String>> taxonomy2; // HashMap<subclasses,HashSet<supclasses>>
-	private HashMap<String, HashSet<String>> commonInstances; // HashMap<classes,HashSet<common
-																// instances>>
+	private HashMap<String, HashSet<String>> commonInstances; // HashMap<classes,HashSet<common instances>>
+	private HashMap<String,	String> classLabels;
+	private HashMap<String,	String> classDescriptions;
 
 }

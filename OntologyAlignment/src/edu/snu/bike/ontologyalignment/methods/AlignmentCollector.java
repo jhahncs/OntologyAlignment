@@ -9,9 +9,6 @@ import java.util.HashSet;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
-import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
-import edu.snu.bike.ontologyalignment.models.data.OutputAlignments;
-
 public class AlignmentCollector {
 
 	public static void main(String[] args) {

@@ -14,7 +14,7 @@ public class Config {
 		type = inter;
 	}
 
-	public Config(Double xe, Double xs, String type, boolean scale) {
+	public Config(Double xe, Double xs, String type, boolean scale, boolean useRam) {
 		this.xs = xs;
 		this.xe = xe;
 		this.scale = scale;
@@ -23,6 +23,7 @@ public class Config {
 
 	public static String inter = "INTER";
 	public static String intra = "INTRA";
+	
 	private Double xs = 1.0;
 	private Double xe = 0.25;
 	private boolean scale = false;
@@ -32,6 +33,16 @@ public class Config {
 	private String namespace1 = "";
 	private String namespace2 = "";
 	private boolean transitive = false;
+	private boolean useRam = true; 
+	
+	
+	public boolean isUseRam() {
+		return useRam;
+	}
+
+	public void setUseRam(boolean useRam) {
+		this.useRam = useRam;
+	}
 
 	public boolean isTransitive() {
 		return transitive;
