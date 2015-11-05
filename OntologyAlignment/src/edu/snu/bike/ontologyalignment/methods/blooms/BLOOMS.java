@@ -1,5 +1,6 @@
 package edu.snu.bike.ontologyalignment.methods.blooms;
 
+import org.apache.lucene.store.Directory;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
@@ -13,7 +14,16 @@ public class BLOOMS implements LexiconbasedMapper{
 		// TODO Auto-generated method stub
 
 	}
-
+	Directory typeDirectory;
+	Directory articleDirectory;
+	Directory taxonomyDirectory;
+	
+	public BLOOMS (Directory typeDirectory, Directory articleDirectory, Directory taxonomyDirectory){
+		this.typeDirectory=typeDirectory;
+		this.articleDirectory=articleDirectory;
+		this.taxonomyDirectory=taxonomyDirectory;
+	}
+	
 	@Override
 	public SimpleDirectedGraph<String, DefaultEdge> mapping(InputOntologies input, Config config) throws Exception {
 		// TODO Auto-generated method stub

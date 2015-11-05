@@ -3,6 +3,7 @@
  */
 package edu.snu.bike.ontologyalignment.methods;
 
+import org.apache.lucene.store.Directory;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
@@ -10,6 +11,7 @@ import edu.snu.bike.ontologyalignment.methods.blooms.BLOOMS;
 import edu.snu.bike.ontologyalignment.methods.iut.IUT;
 import edu.snu.bike.ontologyalignment.methods.iut.IUT_LSH;
 import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
+import edu.snu.bike.ontologyalignment.models.search.KnowledgeBaseIndexerAndSearcher;
 
 /**
  * 
@@ -58,8 +60,23 @@ public class LexiconbasedAlign implements Align {
 	@Override
 	public SimpleDirectedGraph<String, DefaultEdge> align(InputOntologies input, Config config) throws Exception {
 		// TODO Auto-generated method stub
+		
+		Directory typeDirectory = null;
+		Directory articleDirectory = null;
+		Directory taxonomyDirectory = null;
+		
 		if (config.isUseRam()) {
+			String at=config.getArticleTypeFile();
+			String al=config.getArticleLableFile();
+			String ad=config.getArticleDescriptionFile();
+			String rt=config.getReferTaxonomy();
 			
+			KnowledgeBaseIndexerAndSearcher indexer=new KnowledgeBaseIndexerAndSearcher(al, ad, at, rt);
+			indexer.index();
+			
+			typeDirectory=indexer.getTypeDirectory();
+			articleDirectory=indexer.getArticleDirectory();
+			taxonomyDirectory=indexer.getTaxonomyDirectory();
 			
 			
 		} else {
@@ -69,7 +86,7 @@ public class LexiconbasedAlign implements Align {
 			
 		}
 		
-		mapper = new BLOOMS();
+		mapper = new BLOOMS(typeDirectory,articleDirectory,taxonomyDirectory);
 		
 		graph = mapper.mapping(input, config);
 		return graph;

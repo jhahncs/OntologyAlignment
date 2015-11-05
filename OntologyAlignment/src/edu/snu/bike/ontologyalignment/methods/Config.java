@@ -8,17 +8,26 @@ public class Config {
 	}
 
 	public Config() {
-		xs = 1.0;
-		xe = 0.25;
-		scale = false;
-		type = inter;
 	}
 
-	public Config(Double xe, Double xs, String type, boolean scale, boolean useRam) {
-		this.xs = xs;
-		this.xe = xe;
-		this.scale = scale;
-		this.type = type;
+	public Config(String nameSpace1, String nameSpace2) {
+		this.namespace1=nameSpace1;
+		this.namespace2=nameSpace2;
+	}
+	
+	
+	/**if useRam = true, files are rdf files for building index
+	 * if useRam = false, files are built index files 
+	 * 
+	 * @param useRam
+	 * @param knowledgeBaseFile
+	 */
+	public Config(Boolean useRam, String articleTypeFile,String articleLableFile,String articleDescriptionFile,String referTaxonomy) {
+		this.useRam=useRam;
+		this.articleTypeFile=articleTypeFile;
+		this.articleLableFile=articleLableFile;
+		this.articleDescriptionFile=articleDescriptionFile;
+		this.referTaxonomy=referTaxonomy;
 	}
 
 	public static String inter = "INTER";
@@ -34,8 +43,45 @@ public class Config {
 	private String namespace2 = "";
 	private boolean transitive = false;
 	private boolean useRam = true; 
+	private String articleTypeFile="";
+	private String articleLableFile="";
+	private String articleDescriptionFile="";
+	private String referTaxonomy="";
 	
 	
+	public String getReferTaxonomy() {
+		return referTaxonomy;
+	}
+
+	public void setReferTaxonomy(String referTaxonomy) {
+		this.referTaxonomy = referTaxonomy;
+	}
+
+	public String getArticleTypeFile() {
+		return articleTypeFile;
+	}
+
+	public void setArticleTypeFile(String articleTypeFile) {
+		this.articleTypeFile = articleTypeFile;
+	}
+
+	public String getArticleLableFile() {
+		return articleLableFile;
+	}
+
+	public void setArticleLableFile(String articleLableFile) {
+		this.articleLableFile = articleLableFile;
+	}
+
+	public String getArticleDescriptionFile() {
+		return articleDescriptionFile;
+	}
+
+	public void setArticleDescriptionFile(String articleDescriptionFile) {
+		this.articleDescriptionFile = articleDescriptionFile;
+	}
+	
+
 	public boolean isUseRam() {
 		return useRam;
 	}
