@@ -62,6 +62,22 @@ public class InputOntologies {
 		this.classDescriptions = classDescriptions;
 	}
 	
+	public HashSet<String> getClassSet1() {
+		return classSet1;
+	}
+
+	public void setClassSet1(HashSet<String> classSet1) {
+		this.classSet1 = classSet1;
+	}
+
+	public HashSet<String> getClassSet2() {
+		return classSet2;
+	}
+
+	public void setClassSet2(HashSet<String> classSet2) {
+		this.classSet2 = classSet2;
+	}
+
 	
 	private String nameSpace1 = "";
 	private String nameSpace2 = "";
@@ -70,5 +86,7 @@ public class InputOntologies {
 	private HashMap<String, HashSet<String>> commonInstances; // HashMap<classes,HashSet<common instances>>
 	private HashMap<String,	String> classLabels;
 	private HashMap<String,	String> classDescriptions;
-
+	private HashSet<String> classSet1;
+	private HashSet<String> classSet2;
+	
 }

@@ -11,7 +11,7 @@ import edu.snu.bike.ontologyalignment.methods.blooms.BLOOMS;
 import edu.snu.bike.ontologyalignment.methods.iut.IUT;
 import edu.snu.bike.ontologyalignment.methods.iut.IUT_LSH;
 import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
-import edu.snu.bike.ontologyalignment.models.search.KnowledgeBaseIndexerAndSearcher;
+import edu.snu.bike.ontologyalignment.models.search.KnowledgeBaseIndexer;
 
 /**
  * 
@@ -71,7 +71,7 @@ public class LexiconbasedAlign implements Align {
 			String ad=config.getArticleDescriptionFile();
 			String rt=config.getReferTaxonomy();
 			
-			KnowledgeBaseIndexerAndSearcher indexer=new KnowledgeBaseIndexerAndSearcher(al, ad, at, rt);
+			KnowledgeBaseIndexer indexer=new KnowledgeBaseIndexer(al, ad, at, rt);
 			indexer.index();
 			
 			typeDirectory=indexer.getTypeDirectory();

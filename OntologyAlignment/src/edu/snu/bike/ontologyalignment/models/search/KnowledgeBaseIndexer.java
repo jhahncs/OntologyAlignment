@@ -25,7 +25,7 @@ import org.semanticweb.yars.nx.parser.NxParser;
 
 import edu.snu.bike.ontologyalignment.util.TaxonomyUtil;
 
-public class KnowledgeBaseIndexerAndSearcher implements ArticleRamIndex, TaxonomyRamIndex {
+public class KnowledgeBaseIndexer implements ArticleRamIndex, TaxonomyRamIndex {
 
 	public static void main(String args[]) throws CorruptIndexException, IOException {
 
@@ -42,7 +42,7 @@ public class KnowledgeBaseIndexerAndSearcher implements ArticleRamIndex, Taxonom
 		String articleClassFile2 = "data/instance_types_en_2015.nt";
 		String ontologyfile2 = "data/dbpedia_2014.nt";
 
-		KnowledgeBaseIndexerAndSearcher indexer=new KnowledgeBaseIndexerAndSearcher();
+		KnowledgeBaseIndexer indexer=new KnowledgeBaseIndexer();
 		indexer.index();
 
 	}
@@ -81,11 +81,11 @@ public class KnowledgeBaseIndexerAndSearcher implements ArticleRamIndex, Taxonom
 	}
 
 
-	public  KnowledgeBaseIndexerAndSearcher(){
+	public  KnowledgeBaseIndexer(){
 		
 	}
 			
-	public KnowledgeBaseIndexerAndSearcher(String articleTitleFile, String articleAbstrctFile,
+	public KnowledgeBaseIndexer(String articleTitleFile, String articleAbstrctFile,
 			String articleTypeFile, String taxonomyFile)
 					throws CorruptIndexException, LockObtainFailedException, IOException {
 		
@@ -258,7 +258,7 @@ public class KnowledgeBaseIndexerAndSearcher implements ArticleRamIndex, Taxonom
 			Document doc = new Document();
 			doc.add(new Field("url", entry.getKey(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 			doc.add(new Field("label", entry.getValue(), Field.Store.YES, Field.Index.ANALYZED));
-			doc.add(new Field("description", "", Field.Store.YES, Field.Index.ANALYZED));
+			doc.add(new Field("description", entry.getValue(), Field.Store.YES, Field.Index.ANALYZED));
 			writer.addDocument(doc);
 		}
 
@@ -352,5 +352,6 @@ public class KnowledgeBaseIndexerAndSearcher implements ArticleRamIndex, Taxonom
 		writer.close();
 		br.close();
 	}
+
 
 }
