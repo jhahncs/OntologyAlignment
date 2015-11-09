@@ -15,7 +15,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.store.Directory;
 
-public class KnowledgeBaseSearcher implements ArticleRamSearch,TaxonomyRamSearch {
+public class KnowledgeBaseSearcher implements ArticleSearch,TaxonomySearch {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -40,7 +40,7 @@ public class KnowledgeBaseSearcher implements ArticleRamSearch,TaxonomyRamSearch
 		Set<String> articles = new HashSet<String>();
 
 		BooleanQuery bq = new BooleanQuery();
-		bq.setMaxClauseCount(100);
+		BooleanQuery.setMaxClauseCount(100);
 		BooleanQuery bq1 = new BooleanQuery();
 		for (String string : phrases.split(" ")) {
 			TermQuery tq = new TermQuery(new Term("description", string.toLowerCase()));
@@ -68,38 +68,6 @@ public class KnowledgeBaseSearcher implements ArticleRamSearch,TaxonomyRamSearch
 		return articles;
 	}
 
-	@Override
-	public HashMap<String,HashSet<String>> getTypes(Set<String> articlesUrls) throws CorruptIndexException, IOException {
-		// TODO Auto-generated method stub
-
-		HashMap<String, HashSet<String>> allTypes = new HashMap<String,HashSet<String>>();
-		BooleanQuery bq = new BooleanQuery();
-		bq.setMaxClauseCount(100);
-
-		for (String article : articlesUrls) {
-			TermQuery tq = new TermQuery(new Term("url",article));
-			bq.add(tq, Occur.SHOULD);
-		}
-
-		// System.out.println("query: "+bq);
-
-		IndexSearcher searcher = new IndexSearcher(this.typeDirectory);
-		TopDocs rs = searcher.search(bq,searcher.maxDoc());
-		// System.out.println("number of hits: "+rs.totalHits);
-		ScoreDoc[] docs = rs.scoreDocs;
-
-		for (ScoreDoc doc : docs) {
-			String[] types=searcher.doc(doc.doc).get("types").split(" ");
-			HashSet<String> set = new HashSet<String>();
-			for(String type:types){
-				set.add(type);
-			}
-			allTypes.put(searcher.doc(doc.doc).get("url"), set);
-		}
-		
-		return allTypes;
-
-	}
 
 	@Override
 	public Set<String> getFathers(String type) throws Exception {
@@ -120,6 +88,29 @@ public class KnowledgeBaseSearcher implements ArticleRamSearch,TaxonomyRamSearch
 		}
 		
 		return fathers;
+	}
+
+	@Override
+	public Set<String> getTypes(String article) throws Exception {
+		// TODO Auto-generated method stub
+		Set<String> types = new HashSet<String>();
+
+		TermQuery tq = new TermQuery(new Term("url", article));
+		// System.out.println("query: "+bq);
+
+		IndexSearcher searcher = new IndexSearcher(this.typeDirectory);
+		
+		TopDocs rs = searcher.search(tq,searcher.maxDoc());
+		// System.out.println("number of hits: "+rs.totalHits);
+		ScoreDoc[] docs = rs.scoreDocs;
+
+		for (ScoreDoc doc : docs) {
+			for(String type:searcher.doc(doc.doc).get("types").split(" ")){
+				types.add(type);
+			}
+		}
+		
+		return types;
 	}
 
 }

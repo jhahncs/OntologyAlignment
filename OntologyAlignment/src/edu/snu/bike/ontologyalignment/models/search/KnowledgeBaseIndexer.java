@@ -17,6 +17,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
@@ -25,7 +26,7 @@ import org.semanticweb.yars.nx.parser.NxParser;
 
 import edu.snu.bike.ontologyalignment.util.TaxonomyUtil;
 
-public class KnowledgeBaseIndexer implements ArticleRamIndex, TaxonomyRamIndex {
+public class KnowledgeBaseIndexer implements ArticleIndex, TaxonomyIndex {
 
 	public static void main(String args[]) throws CorruptIndexException, IOException {
 
@@ -100,6 +101,24 @@ public class KnowledgeBaseIndexer implements ArticleRamIndex, TaxonomyRamIndex {
 		this.articleTypeFile = articleTypeFile;
 		this.taxonomyFile = taxonomyFile;
 	}
+	
+	public KnowledgeBaseIndexer(String articleTitleFile, String articleAbstrctFile,
+			String articleTypeFile, String taxonomyFile, String articleIndexDir, String typeIndexDir, String taxonomyIndexDir)
+					throws CorruptIndexException, LockObtainFailedException, IOException {
+		
+		fathers=new HashMap<String,HashSet<String>>();
+		
+		typeDirectory = FSDirectory.open(new File(typeIndexDir));
+		articleDirectory = FSDirectory.open(new File(typeIndexDir));
+		taxonomyDirectory = FSDirectory.open(new File(typeIndexDir));
+
+		this.articleTitleFile = articleTitleFile;
+		this.articleAbstrctFile = articleAbstrctFile;
+		this.articleTypeFile = articleTypeFile;
+		this.taxonomyFile = taxonomyFile;
+	}
+	
+	
 
 	public void index() throws IOException {
 		
@@ -116,11 +135,11 @@ public class KnowledgeBaseIndexer implements ArticleRamIndex, TaxonomyRamIndex {
 				new StandardAnalyzer(Version.LUCENE_34), true, IndexWriter.MaxFieldLength.UNLIMITED);
 		
 		
-		writeOntologyToRam(taxonomyDirectoryWriter, this.taxonomyFile);
+		writeOntology(taxonomyDirectoryWriter, this.taxonomyFile);
 		
-		writeArticleTypeToRam(typeDirectoryWriter, this.articleTypeFile);
+		writeArticleType(typeDirectoryWriter, this.articleTypeFile);
 		
-		writeArticleToRam(articleDirectoryWriter, this.articleTitleFile, this.articleAbstrctFile);
+		writeArticle(articleDirectoryWriter, this.articleTitleFile, this.articleAbstrctFile);
 		
 		
 		
@@ -129,7 +148,7 @@ public class KnowledgeBaseIndexer implements ArticleRamIndex, TaxonomyRamIndex {
 	}
 
 	@Override
-	public void writeOntologyToRam(IndexWriter writer, String ontologyfile) throws IOException {
+	public void writeOntology(IndexWriter writer, String ontologyfile) throws IOException {
 		// TODO Auto-generated method stub
 		fathers = new HashMap<String, HashSet<String>>();
 		BufferedReader br = new BufferedReader(new FileReader(new File(ontologyfile)));
@@ -188,7 +207,7 @@ public class KnowledgeBaseIndexer implements ArticleRamIndex, TaxonomyRamIndex {
 	}
 
 	@Override
-	public void writeArticleToRam(IndexWriter writer, String articleTitleFile, String articleAbstrctFile)
+	public void writeArticle(IndexWriter writer, String articleTitleFile, String articleAbstrctFile)
 			throws IOException {
 		// TODO Auto-generated method stub
 		
@@ -270,7 +289,7 @@ public class KnowledgeBaseIndexer implements ArticleRamIndex, TaxonomyRamIndex {
 	}
 
 	@Override
-	public void writeArticleTypeToRam(IndexWriter writer, String articleTypeFile)
+	public void writeArticleType(IndexWriter writer, String articleTypeFile)
 			throws IOException {
 		// TODO Auto-generated method stub
 		HashMap<String, HashSet<String>> articleClass = new HashMap<String, HashSet<String>>();

@@ -12,7 +12,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-
+import org.semanticweb.yars.nx.Node;
+import org.semanticweb.yars.nx.parser.NxParser;
 public class Freebase implements Statistics{
 
 	public static void main(String[] args) throws IOException {

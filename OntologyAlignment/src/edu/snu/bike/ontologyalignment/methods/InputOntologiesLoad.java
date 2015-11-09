@@ -3,12 +3,14 @@ package edu.snu.bike.ontologyalignment.methods;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import org.semanticweb.yars.nx.Node;
+import org.semanticweb.yars.nx.parser.NxParser;
 
 import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
 
@@ -175,7 +177,7 @@ public class InputOntologiesLoad implements TaxonomyLoad, CommonTypesLoad,litera
 	}
 	
 	
-	public void load(HashMap<String,String> map, String taxonomyfile, String property){
+	public void load(HashMap<String,String> map, String taxonomyfile, String property) throws IOException{
 		BufferedReader br1 = new BufferedReader(new FileReader(new File(taxonomyfile)));
 		String line = null;
 		while ((line = br1.readLine()) != null) {

@@ -3,13 +3,14 @@
  */
 package edu.snu.bike.ontologyalignment.methods;
 
+import java.io.File;
+
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
 import edu.snu.bike.ontologyalignment.methods.blooms.BLOOMS;
-import edu.snu.bike.ontologyalignment.methods.iut.IUT;
-import edu.snu.bike.ontologyalignment.methods.iut.IUT_LSH;
 import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
 import edu.snu.bike.ontologyalignment.models.search.KnowledgeBaseIndexer;
 
@@ -80,13 +81,15 @@ public class LexiconbasedAlign implements Align {
 			
 			
 		} else {
-			// this is the scale one
+			// uses index in the file system
 			
-			
+			typeDirectory=FSDirectory.open(new File(config.getTypeDirectory()));
+			articleDirectory=FSDirectory.open(new File(config.getArticleDirectory()));
+			taxonomyDirectory=FSDirectory.open(new File(config.getTaxonomyDirectory()));
 			
 		}
 		
-		mapper = new BLOOMS(typeDirectory,articleDirectory,taxonomyDirectory);
+		mapper = new BLOOMS(typeDirectory,articleDirectory,taxonomyDirectory,config.getWordNetDirectory());
 		
 		graph = mapper.mapping(input, config);
 		return graph;

@@ -42,12 +42,51 @@ public class Config {
 	private String namespace1 = "";
 	private String namespace2 = "";
 	private boolean transitive = false;
-	private boolean useRam = true; 
+	
+	private boolean useRam = false;
 	private String articleTypeFile="";
 	private String articleLableFile="";
 	private String articleDescriptionFile="";
 	private String referTaxonomy="";
 	
+	
+	private String typeDirectory="/externalDisk/1/samsung2015/index/dbpediaType";
+	private String articleDirectory="/externalDisk/1/samsung2015/index/dbpediaArticle";
+	private String taxonomyDirectory="/externalDisk/1/samsung2015/index/dbpetiaOntologyTaxonomy";
+	private String wordNetDirectory="/externalDisk/1/samsung2015/wordnet/WordNet-3.0";
+	
+	public String getWordNetDirectory() {
+		return wordNetDirectory;
+	}
+
+	public void setWordNetDirectory(String wordNetDirectory) {
+		this.wordNetDirectory = wordNetDirectory;
+	}
+
+	public String getTypeDirectory() {
+		return typeDirectory;
+	}
+
+	public void setTypeDirectory(String typeDirectory) {
+		this.typeDirectory = typeDirectory;
+	}
+
+	public String getArticleDirectory() {
+		return articleDirectory;
+	}
+
+	public void setArticleDirectory(String articleDirectory) {
+		this.articleDirectory = articleDirectory;
+	}
+
+	public String getTaxonomyDirectory() {
+		return taxonomyDirectory;
+	}
+
+	public void setTaxonomyDirectory(String taxonomyDirectory) {
+		this.taxonomyDirectory = taxonomyDirectory;
+	}
+
 	
 	public String getReferTaxonomy() {
 		return referTaxonomy;

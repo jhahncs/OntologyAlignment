@@ -6,23 +6,18 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 import edu.snu.bike.ontologyalignment.methods.AlignmentCollector;
 import edu.snu.bike.ontologyalignment.methods.Config;
 import edu.snu.bike.ontologyalignment.methods.InstancebasedAlign;
+import edu.snu.bike.ontologyalignment.methods.LexiconbasedAlign;
+import org.semanticweb.yars.nx.Node;
+import org.semanticweb.yars.nx.parser.NxParser;
 
-public class WikiDataToDbpedia {
+public class LexiconBasedWikiDataToDbpedia {
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		Config config = new Config();
-		// LSH
-		config.setScale(false);
-		config.setType(Config.inter);
-		config.setXs(1.0);
-		config.setXe(0.6);
-		config.setNamespace1("<http://dbpedia.org/ontology/");
-		config.setNamespace2("<http://www.wikidata.org/entity");
-
-		InstancebasedAlign align = new InstancebasedAlign("documents/data/input/dbpedia/dbpedia_2014_refined.nt",
-				"documents/data/input/wikidata/wikidata-taxonomy-refined.nt",
-				"documents/data/input/wikidata-dbpedia/class-instance", config);
+		// blooms
+		
+		LexiconbasedAlign align  = new LexiconbasedAlign(args[0], args[1], config);
 
 		SimpleDirectedGraph<String, DefaultEdge> graph = align.align(align.getInput(), config);
 		SimpleDirectedGraph<String, DefaultEdge> results = align.getAlignments(graph, config);

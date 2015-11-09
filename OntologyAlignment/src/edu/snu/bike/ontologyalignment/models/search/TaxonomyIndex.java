@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import org.apache.lucene.index.IndexWriter;
 
-public interface TaxonomyRamIndex {
+public interface TaxonomyIndex {
 	
-	public void writeOntologyToRam(IndexWriter writer, String ontologyfile) throws IOException;
+	public void writeOntology(IndexWriter writer, String ontologyfile) throws IOException;
 	
 }
