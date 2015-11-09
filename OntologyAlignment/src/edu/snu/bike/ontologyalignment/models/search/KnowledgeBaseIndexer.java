@@ -122,7 +122,7 @@ public class KnowledgeBaseIndexer implements ArticleIndex, TaxonomyIndex {
 
 	public void index() throws IOException {
 		
-		System.out.println("write article to ram...");
+		System.out.println(" write article ...");
 		
 		
 		IndexWriter typeDirectoryWriter = new IndexWriter(typeDirectory, new StandardAnalyzer(Version.LUCENE_34), true,
@@ -134,14 +134,17 @@ public class KnowledgeBaseIndexer implements ArticleIndex, TaxonomyIndex {
 		IndexWriter taxonomyDirectoryWriter = new IndexWriter(taxonomyDirectory,
 				new StandardAnalyzer(Version.LUCENE_34), true, IndexWriter.MaxFieldLength.UNLIMITED);
 		
+		System.out.println(" indexing ontology ...");
 		
 		writeOntology(taxonomyDirectoryWriter, this.taxonomyFile);
 		
+		System.out.println(" indexing article type ...");
+		
 		writeArticleType(typeDirectoryWriter, this.articleTypeFile);
 		
+		System.out.println(" indexing article ...");
+		
 		writeArticle(articleDirectoryWriter, this.articleTitleFile, this.articleAbstrctFile);
-		
-		
 		
 		
 		System.out.println("knowledgebase indexing finished ...");
