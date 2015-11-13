@@ -1,5 +1,6 @@
 package edu.snu.bike.ontologyalignment.models.search;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,12 +15,28 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+
+import edu.snu.bike.ontologyalignment.methods.Config;
 
 public class KnowledgeBaseSearcher implements ArticleSearch,TaxonomySearch {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-
+		Config config = new Config();
+		Directory typeDirectory= FSDirectory.open(new File(config.getTypeDirectory()));
+		Directory articleDirectory= FSDirectory.open(new File(config.getArticleDirectory()));
+		Directory taxonomyDirectory= FSDirectory.open(new File(config.getTaxonomyDirectory()));
+		
+		KnowledgeBaseSearcher searcher= new KnowledgeBaseSearcher(typeDirectory, articleDirectory, 
+				taxonomyDirectory);
+		System.out.println(config.getTypeDirectory());
+		System.out.println(config.getArticleDirectory());
+		System.out.println(config.getTaxonomyDirectory());
+		
+		
+		System.out.println(searcher.getTypes("<http://dbpedia.org/resource/Title_Bout_Championship_Boxing>"));
+		
 	}
 
 	private HashMap<String, HashSet<String>> fathers;
@@ -48,12 +65,13 @@ public class KnowledgeBaseSearcher implements ArticleSearch,TaxonomySearch {
 		}
 
 		bq.add(bq1, Occur.SHOULD);
+		
 		BooleanQuery bq2 = new BooleanQuery();
 		for (String string : phrases.split(" ")) {
 			TermQuery tq = new TermQuery(new Term("label", string.toLowerCase()));
 			bq2.add(tq, Occur.MUST);
 		}
-		bq.add(bq1, Occur.MUST);
+		bq.add(bq2, Occur.MUST);
 
 		// System.out.println("query: "+bq);
 
@@ -96,7 +114,7 @@ public class KnowledgeBaseSearcher implements ArticleSearch,TaxonomySearch {
 		Set<String> types = new HashSet<String>();
 
 		TermQuery tq = new TermQuery(new Term("url", article));
-		// System.out.println("query: "+bq);
+//		System.out.println("url: "+article);
 
 		IndexSearcher searcher = new IndexSearcher(this.typeDirectory);
 		

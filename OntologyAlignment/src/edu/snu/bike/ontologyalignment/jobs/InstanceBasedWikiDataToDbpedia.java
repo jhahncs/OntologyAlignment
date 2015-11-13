@@ -20,9 +20,12 @@ public class InstanceBasedWikiDataToDbpedia {
 		config.setNamespace1("<http://dbpedia.org/ontology/");
 		config.setNamespace2("<http://www.wikidata.org/entity");
 
-		InstancebasedAlign align = new InstancebasedAlign("documents/data/input/dbpedia/dbpedia_2014_refined.nt",
-				"documents/data/input/wikidata/wikidata-taxonomy-refined.nt",
-				"documents/data/input/wikidata-dbpedia/class-instance", config);
+//		InstancebasedAlign align = new InstancebasedAlign("data/testData/dbpedia_2014_refined.nt",
+//				"data/testData/wikidata-taxonomy-refined.nt",
+//				"data/testData/class-instance", config);
+		InstancebasedAlign align = new InstancebasedAlign("data/testData/dbpedia_2014_refined.nt",
+				"data/testData/wikidata-taxonomy-refined.nt",
+				"data/testData/class-instance", config);
 
 		SimpleDirectedGraph<String, DefaultEdge> graph = align.align(align.getInput(), config);
 		SimpleDirectedGraph<String, DefaultEdge> results = align.getAlignments(graph, config);
@@ -30,8 +33,8 @@ public class InstanceBasedWikiDataToDbpedia {
 		System.out.println("Collector finished...");
 		AlignmentCollector collector = new AlignmentCollector();
 
-		collector.writeAlignmentToFile(results, config, "documents/data/output/dbpedia2wikidata/sub.txt",
-				"documents/data/output/dbpedia2wikidata/eql.txt");
+		collector.writeAlignmentToFile(results, config, "alignments/instance-based/sub.txt",
+				"alignments/instance-based/eql.txt");
 	}
 
 }

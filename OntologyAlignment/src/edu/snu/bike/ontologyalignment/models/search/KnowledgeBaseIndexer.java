@@ -109,8 +109,8 @@ public class KnowledgeBaseIndexer implements ArticleIndex, TaxonomyIndex {
 		fathers=new HashMap<String,HashSet<String>>();
 		
 		typeDirectory = FSDirectory.open(new File(typeIndexDir));
-		articleDirectory = FSDirectory.open(new File(typeIndexDir));
-		taxonomyDirectory = FSDirectory.open(new File(typeIndexDir));
+		articleDirectory = FSDirectory.open(new File(articleIndexDir));
+		taxonomyDirectory = FSDirectory.open(new File(taxonomyIndexDir));
 
 		this.articleTitleFile = articleTitleFile;
 		this.articleAbstrctFile = articleAbstrctFile;
@@ -124,13 +124,6 @@ public class KnowledgeBaseIndexer implements ArticleIndex, TaxonomyIndex {
 		
 		System.out.println(" write article ...");
 		
-		
-		IndexWriter typeDirectoryWriter = new IndexWriter(typeDirectory, new StandardAnalyzer(Version.LUCENE_34), true,
-				IndexWriter.MaxFieldLength.UNLIMITED);
-
-		IndexWriter articleDirectoryWriter = new IndexWriter(articleDirectory, new StandardAnalyzer(Version.LUCENE_34),
-				true, IndexWriter.MaxFieldLength.UNLIMITED);
-
 		IndexWriter taxonomyDirectoryWriter = new IndexWriter(taxonomyDirectory,
 				new StandardAnalyzer(Version.LUCENE_34), true, IndexWriter.MaxFieldLength.UNLIMITED);
 		
@@ -138,11 +131,21 @@ public class KnowledgeBaseIndexer implements ArticleIndex, TaxonomyIndex {
 		
 		writeOntology(taxonomyDirectoryWriter, this.taxonomyFile);
 		
+		
+		
 		System.out.println(" indexing article type ...");
+		
+		IndexWriter typeDirectoryWriter = new IndexWriter(typeDirectory, new StandardAnalyzer(Version.LUCENE_34), true,
+				IndexWriter.MaxFieldLength.UNLIMITED);
+		
 		
 		writeArticleType(typeDirectoryWriter, this.articleTypeFile);
 		
+		
 		System.out.println(" indexing article ...");
+		
+		IndexWriter articleDirectoryWriter = new IndexWriter(articleDirectory, new StandardAnalyzer(Version.LUCENE_34),
+				true, IndexWriter.MaxFieldLength.UNLIMITED);
 		
 		writeArticle(articleDirectoryWriter, this.articleTitleFile, this.articleAbstrctFile);
 		
@@ -326,7 +329,7 @@ public class KnowledgeBaseIndexer implements ArticleIndex, TaxonomyIndex {
 							|| p.equals("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>")) {
 						// System.out.println(o);
 						if (o.startsWith("<http://dbpedia.org/resource/Category:")
-								|| o.equals("<http://dbpedia.org/ontology/")) {
+								|| o.startsWith("<http://dbpedia.org/ontology/")) {
 
 							if (tmp.containsKey(s)) {
 								tmp.get(s).add(o);
@@ -362,6 +365,16 @@ public class KnowledgeBaseIndexer implements ArticleIndex, TaxonomyIndex {
 			for(String type:entry.getValue()){
 				string+=type+" ";
 			}
+			
+			
+			
+			if(entry.getKey().equals("<http://dbpedia.org/resource/Title_Bout_Championship_Boxing>")){
+				System.out.println("==========================");
+				System.out.println(entry.getValue());
+				System.out.println("==========================");
+			}
+			
+			
 			Document doc = new Document();
 			doc.add(new Field("url", entry.getKey(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 			doc.add(new Field("types", string.trim(), Field.Store.YES, Field.Index.NOT_ANALYZED));

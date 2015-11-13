@@ -59,6 +59,7 @@ public class BLOOMS implements LexiconbasedMapper {
 		this.typeDirectory = typeDirectory;
 		this.articleDirectory = articleDirectory;
 		this.taxonomyDirectory = taxonomyDirectory;
+		
 		searcher=new KnowledgeBaseSearcher(typeDirectory, articleDirectory, taxonomyDirectory);
 		wntester=new WordnetTester(wordNetDir);
 	}
@@ -66,8 +67,11 @@ public class BLOOMS implements LexiconbasedMapper {
 	@Override
 	public SimpleDirectedGraph<String, DefaultEdge> mapping(InputOntologies input, Config config) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println(" initial BLOOMS .");
 		initial(input, config);
-		match(0.95);
+		System.out.println(" start matching .");
+		match(config.getThreshold());
+		System.out.println(" BLOOMS finished .");
 		return getGraph();
 	}
 
@@ -75,10 +79,13 @@ public class BLOOMS implements LexiconbasedMapper {
 	public void initial(InputOntologies input, Config config) throws Exception {
 		// TODO Auto-generated method stub
 		
+    	ont1ConceptToTreeMap = new HashMap();
+        ont2ConceptToTreeMap = new HashMap();
+        
 		graph= new SimpleDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
 		
 		HashSet<String> classSet1 = input.getClassSet1();
-		HashSet<String> classSet2 = input.getClassSet1();
+		HashSet<String> classSet2 = input.getClassSet2();
 		HashMap<String, String> labels = input.getClassLabels();
 
 		long start = System.currentTimeMillis();
@@ -87,7 +94,7 @@ public class BLOOMS implements LexiconbasedMapper {
 			String url = class1;
 			// System.err.println(entry);
 			if (className != null || className != "null") {
-				// System.err.println("className: "+className);
+//				System.out.println(url+ " : "+className);
 				BloomsTree dbpediaTree = createBloomsTree(className);
 				BreadthFirstSearch bfsSearch = new BreadthFirstSearch((BloomsNode) dbpediaTree.getRoot());
 				bfsSearch.printBFSTraversal();
@@ -105,7 +112,7 @@ public class BLOOMS implements LexiconbasedMapper {
 			String url = class2;
 			// System.err.println(entry);
 			if (className != null || className != "null") {
-				// System.err.println("className: "+className);
+//				System.out.println(url+ " : "+className);
 				BloomsTree dbpediaTree = createBloomsTree(className);
 				BreadthFirstSearch bfsSearch = new BreadthFirstSearch((BloomsNode) dbpediaTree.getRoot());
 				bfsSearch.printBFSTraversal();
@@ -129,6 +136,7 @@ public class BLOOMS implements LexiconbasedMapper {
 			String concept1 = (String) ont1ConceptItr.next();
 			System.out.println("mapping: " + concept1 + " id: " + counter + " percentage: "
 					+ ((double) counter) / ont1ConceptToTreeMap.size());
+			
 			BloomsTree sourceTree = (BloomsTree) ont1ConceptToTreeMap.get(concept1);
 			for (Iterator ont2ConceptItr = ont2ConceptToTreeMap.keySet().iterator(); ont2ConceptItr.hasNext();) {
 				String concept2 = (String) ont2ConceptItr.next();
@@ -151,8 +159,12 @@ public class BLOOMS implements LexiconbasedMapper {
 					// Level:").append(n.getLevel()).toString()))
 					// n = (BloomsNode)nodeItr.next();
 					if (rel != null) {
+						
+						graph.addVertex(concept1);
+						graph.addVertex(concept2);
+						
 						double strength = wtrf.getRelationshipStrength().doubleValue();
-						// System.out.println(rel.getRelation()+" "+strength);
+//						System.out.println(rel.getRelation()+" "+strength);
 						if (strength > tHold.doubleValue()) {
 
 							if (rel.getRelation().equals("=")) {
@@ -216,8 +228,8 @@ public class BLOOMS implements LexiconbasedMapper {
 				for (int k = 0; k < bloomsNodeList.size(); k++) {
 					BloomsNode n = (BloomsNode) bloomsNodeList.get(k);
 					constructSubTree(n);
-					// System.err.println(phrase+" "+articleName+"
-					// "+n.getUserObject()+" "+n.getChildCount());
+//					 System.err.println(phrase+" "+article+" "
+//					 +n.getUserObject()+" "+n.getChildCount());
 				}
 
 			}

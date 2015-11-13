@@ -39,8 +39,10 @@ public class Config {
 	private String type = inter;
 	private int numofSig = 50;
 	private int numberofRow = 2;
-	private String namespace1 = "";
-	private String namespace2 = "";
+	private Double threshold=0.95;
+	
+	private String namespace1 = "<http://rdf.freebase.com/";
+	private String namespace2 = "<http://www.wikidata.org/";
 	private boolean transitive = false;
 	
 	private boolean useRam = false;
@@ -55,6 +57,14 @@ public class Config {
 	private String taxonomyDirectory="/externalDisk/1/samsung2015/index/dbpetiaOntologyTaxonomy";
 	private String wordNetDirectory="/externalDisk/1/samsung2015/wordnet/WordNet-3.0";
 	
+	
+	public Double getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(Double threshold) {
+		this.threshold = threshold;
+	}
 	public String getWordNetDirectory() {
 		return wordNetDirectory;
 	}

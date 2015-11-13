@@ -14,7 +14,7 @@ import org.semanticweb.yars.nx.parser.NxParser;
 
 import edu.snu.bike.ontologyalignment.models.data.InputOntologies;
 
-public class InputOntologiesLoad implements TaxonomyLoad, CommonTypesLoad,literalLoad {
+public class InputOntologiesLoad implements TaxonomyLoad, CommonTypesLoad,LiteralLoad,ClassLoad {
 
 	public InputOntologiesLoad(String taxonomyFile1, String taxonomyFile2, String commonTypeInstanceFile)
 			throws IOException {
@@ -28,10 +28,23 @@ public class InputOntologiesLoad implements TaxonomyLoad, CommonTypesLoad,litera
 	public InputOntologiesLoad(String taxonomyFile1, String taxonomyFile2)
 			throws Exception {
 		data = new InputOntologies();
-		data.setTaxonomy1(loadTaxonomy(taxonomyFile1));
-		data.setTaxonomy2(loadTaxonomy(taxonomyFile2));
+//		System.out.println( " loading taxonomy1 .");
+//		data.setTaxonomy1(loadTaxonomy(taxonomyFile1));
+//		System.out.println( " loading taxonomy1 .");
+//		data.setTaxonomy2(loadTaxonomy(taxonomyFile2));
+		
+		
+//		System.out.println( " loading descriptions .");
+//		data.setClassDescriptions(loadDescriptions(taxonomyFile1,taxonomyFile2));
+		
+		System.out.println( " loading labels .");
 		data.setClassLabels(loadLabels(taxonomyFile1,taxonomyFile2));
-		data.setClassDescriptions(loadDescriptions(taxonomyFile1,taxonomyFile2));
+		
+		System.out.println( " loading classSet1 .");
+		data.setClassSet1(loadClasses(taxonomyFile1));
+		System.out.println( " loading classSet2 .");
+		data.setClassSet2(loadClasses(taxonomyFile2));
+		
 	}
 
 	public InputOntologiesLoad(String taxonomyFile1, String taxonomyFile2, String typeFromO1, String typeFromO2)
@@ -188,16 +201,42 @@ public class InputOntologiesLoad implements TaxonomyLoad, CommonTypesLoad,litera
 				String s = quard[0].toN3().trim();
 				String p = quard[1].toN3().trim();
 				String o = quard[2].toN3().trim();
-				if(p.equals(property)&o.contains("@en")){
-					String content=o.substring(o.indexOf("\"")+1, o.lastIndexOf("\"@en"));
+				if(p.equals(property)&o.contains("\"")){
+					String content=o.substring(o.indexOf("\"")+1, o.lastIndexOf("\""));
 					map.put(s, content);
 				}
 			}
 		}
 		br1.close();
 	}
-	
-	
-	
+
+	@Override
+	public HashSet<String> loadClasses(String taxonomyfile) throws Exception {
+		// TODO Auto-generated method stub
+		HashSet<String> classes= new HashSet<String>();
+		HashSet<String> types= new HashSet<String>();
+		
+		BufferedReader br1 = new BufferedReader(new FileReader(new File(taxonomyfile)));
+		String line = null;
+		while ((line = br1.readLine()) != null) {
+			InputStream inputStream = new ByteArrayInputStream(line.getBytes());
+			NxParser nxp = new NxParser(inputStream, false);
+			while (nxp.hasNext()) {
+				Node[] quard = nxp.next();
+				String s = quard[0].toN3().trim();
+				String p = quard[1].toN3().trim();
+				String o = quard[2].toN3().trim();
+				if(p.equals("<http://www.w3.org/2000/01/rdf-schema#label>")&o.contains("\"")){
+					classes.add(s);
+				}
+				if(p.equals("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>")&o.equals("<http://www.w3.org/2002/07/owl#Class>")){
+					types.add(s);
+				}
+			}
+		}
+		classes.retainAll(types);
+		br1.close();
+		return classes;
+	}
 
 }

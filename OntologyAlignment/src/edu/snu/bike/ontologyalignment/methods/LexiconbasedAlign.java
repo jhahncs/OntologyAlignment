@@ -102,8 +102,9 @@ public class LexiconbasedAlign implements Align {
 	@Override
 	public SimpleDirectedGraph<String, DefaultEdge> getAlignments(SimpleDirectedGraph<String, DefaultEdge> graph,
 			Config config) {
-		// TODO Auto-generated method stub
-		return null;
+		AlignmentCollector collector = new AlignmentCollector();
+		SimpleDirectedGraph<String, DefaultEdge> results = collector.collect(graph, config);
+		return results;
 	}
 
 }
