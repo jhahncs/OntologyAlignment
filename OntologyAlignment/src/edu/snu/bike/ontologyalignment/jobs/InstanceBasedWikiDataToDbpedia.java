@@ -20,9 +20,7 @@ public class InstanceBasedWikiDataToDbpedia {
 		config.setNamespace1("<http://dbpedia.org/ontology/");
 		config.setNamespace2("<http://www.wikidata.org/entity");
 
-//		InstancebasedAlign align = new InstancebasedAlign("data/testData/dbpedia_2014_refined.nt",
-//				"data/testData/wikidata-taxonomy-refined.nt",
-//				"data/testData/class-instance", config);
+
 		InstancebasedAlign align = new InstancebasedAlign("data/testData/dbpedia_2014_refined.nt",
 				"data/testData/wikidata-taxonomy-refined.nt",
 				"data/testData/class-instance", config);

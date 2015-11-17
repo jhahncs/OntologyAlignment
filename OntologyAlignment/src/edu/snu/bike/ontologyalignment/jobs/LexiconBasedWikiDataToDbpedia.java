@@ -5,10 +5,7 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 
 import edu.snu.bike.ontologyalignment.methods.AlignmentCollector;
 import edu.snu.bike.ontologyalignment.methods.Config;
-import edu.snu.bike.ontologyalignment.methods.InstancebasedAlign;
 import edu.snu.bike.ontologyalignment.methods.LexiconbasedAlign;
-import org.semanticweb.yars.nx.Node;
-import org.semanticweb.yars.nx.parser.NxParser;
 
 public class LexiconBasedWikiDataToDbpedia {
 
