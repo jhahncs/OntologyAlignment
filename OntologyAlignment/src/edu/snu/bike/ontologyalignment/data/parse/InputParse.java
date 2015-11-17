@@ -40,6 +40,7 @@ public class InputParse implements InputSplit {
 	public void split(String sourceTaxonomy, String targetTaxonomy, String classInstance, String sourceClassLabel,
 			String targetClassLabel) throws IOException {
 		// TODO Auto-generated method stub
+		System.out.println("parse input data, and split into 4 parts... ");
 		generateTaxonomy(this.sourceFile, sourceTaxonomy);
 		generateTaxonomy(this.targetFile, targetTaxonomy);
 		getInstanceClass(this.sourceFile, this.targetFile);
@@ -201,9 +202,12 @@ public class InputParse implements InputSplit {
 		
 		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(commonClassInstance)));
 		for(Entry<String,HashSet<String>> entry:ClassInstace.entrySet()){
+			StringBuffer sb = new StringBuffer();
 			for(String string:entry.getValue()){
-				bw.write(string+" <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "+entry.getKey()+" .\n");
+				sb.append(string+" ");
+				
 			}
+			bw.write(entry.getKey()+"	"+sb.toString().trim()+" .\n");
 		}
 		bw.flush();
 		bw.close();
